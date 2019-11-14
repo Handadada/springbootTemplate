@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="demo@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.11">
+    <root id="1">
+      <ServerVersion>5.0.27</ServerVersion>
+      <DefaultCasing>lower/lower</DefaultCasing>
+    </root>
+    <schema id="2" parent="1" name="account"/>
+    <schema id="3" parent="1" name="china"/>
+    <schema id="4" parent="1" name="demo">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="5" parent="1" name="demo0509"/>
+    <schema id="6" parent="1" name="emp"/>
+    <schema id="7" parent="1" name="erp"/>
+    <schema id="8" parent="1" name="fcc"/>
+    <schema id="9" parent="1" name="hibernate_day01"/>
+    <schema id="10" parent="1" name="homework"/>
+    <schema id="11" parent="1" name="homework522"/>
+    <schema id="12" parent="1" name="information_schema"/>
+    <schema id="13" parent="1" name="log01"/>
+    <schema id="14" parent="1" name="maven"/>
+    <schema id="15" parent="1" name="maven2"/>
+    <schema id="16" parent="1" name="mybatis"/>
+    <schema id="17" parent="1" name="mysql"/>
+    <schema id="18" parent="1" name="newsbiz"/>
+    <schema id="19" parent="1" name="school"/>
+    <schema id="20" parent="1" name="spms"/>
+    <schema id="21" parent="1" name="ssm"/>
+    <schema id="22" parent="1" name="supermarket"/>
+    <schema id="23" parent="1" name="test"/>
+    <schema id="24" parent="1" name="test01"/>
+    <schema id="25" parent="1" name="test02"/>
+    <schema id="26" parent="1" name="test03"/>
+    <schema id="27" parent="1" name="test0829"/>
+    <schema id="28" parent="1" name="wabacusdemodb"/>
+    <table id="29" parent="4" name="user"/>
+    <column id="30" parent="29" name="id">
+      <Position>1</Position>
+      <DataType>VARCHAR(36)|12s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="31" parent="29" name="name">
+      <Position>2</Position>
+      <DataType>VARCHAR(36)|12s</DataType>
+    </column>
+    <column id="32" parent="29" name="age">
+      <Position>3</Position>
+      <DataType>INT(10)|4s</DataType>
+    </column>
+  </database-model>
+</dataSource>

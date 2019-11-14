@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>springBootTest</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_global.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_tabs.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_common.css" type="text/css">
+    <link rel="stylesheet" href="/css/prettify.css" type="text/css">
+
+
+</head>
+<body>
+<div class="content">
+    <div class="cq-header">
+        <div class="logo fl">
+            <h3>中午吃点啥?o(*￣︶￣*)o</h3>
+        </div>
+        <!--<div class="fr">
+            <div class="hello_name">测试员，您好！</div>
+            <ul class="header_btns">
+                <li class="my"><a href="#">个人信息</a></li>
+                <li class="home"><a href="#">首页</a></li>
+                <li class="out"><a href="#">退出</a></li>
+            </ul>
+        </div>-->
+    </div>
+
+
+    <div class="main">
+        <div class="float_nav">
+            <ul id="accordion" class="accordion">
+                <li>
+                    <div class="link"><a href="javascript:;" class="one"><i class="i_xmcsh"></i>初始化测试<i
+                            class=" nav_down"></i></a></div>
+                    <ul class="submenu">
+                        <li><a href="#" mid="tab1" funurl="initialize/test/init/testHtml">演示列表</a></li>
+
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <div class="right_box">
+            <div class="fl w100" id="mainFrameTabs">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active noclose"><a href="#bTabs_navTabsMainPage"
+                                                                      data-toggle="tab">首页</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="bTabs_navTabsMainPage">
+
+                        <h2 style="font-size: 31.5px;text-align: center;font-weight: normal; margin-top:200px">午餐不再愁</h2>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/b.tabs.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/prettify.js"></script>
+    <script src="js/jquery.slimscroll.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.accordion').slimScroll({
+                width: '189px', //可滚动区域宽度
+                height: '100%', //可滚动区域高度
+                size: '5px', //组件宽度
+                color: '#666', //滚动条颜色
+                position: 'right', //组件位置：left/right
+                distance: '0px', //组件与侧边之间的距离
+                start: 'top', //默认滚动位置：top/bottom
+                opacity: 4, //滚动条透明度
+                alwaysVisible: false, //是否 始终显示组件
+                disableFadeOut: true, //是否 鼠标经过可滚动区域时显示组件，离开时隐藏组件
+                railDraggable: true, //是否 滚动条可拖动
+                borderRadius: '8px' //滚动条圆角
+
+            });
+            $(".slimScrollBar").hide();
+        });
+
+
+    </script>
+</div>
+</body>
+</html>

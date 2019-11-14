@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GetDemo</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_global.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_tabs.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_common.css" type="text/css">
+    <link rel="stylesheet" href="/css/prettify.css" type="text/css">
+    <link rel="stylesheet" href="/css/ele.css" type="text/css">
+</head>
+<body class="bg-body">
+<div class="content">
+    <div class="main" id="box">
+        <div class="pz-text mt30">
+
+            <el-form :inline="true" label-width="80px" size="medium" @submit.native.prevent>
+                <!--<el-form-item >
+                    <el-select v-model="yearId"  placeholder="年度" @change="getAwardSets">
+                        <el-option v-for="year in yearList" :label="year.name" :value="year.id"></el-option>
+                    </el-select>
+                </el-form-item>-->
+
+                <el-form-item >
+                    <el-button type="primary" size="medium" @click="getUsers">查询</el-button>
+                </el-form-item>
+
+                <br/>
+            </el-form>
+
+            <table width="100%" border="1" cellspacing="0" style="table-layout: fixed; text-align: center" cellpadding="0" class="cq_table">
+                <tr>
+                    <th width="8%">
+                        <el-checkbox v-model="checkFlag" label="序号"
+                                     @change="allCheck"></el-checkbox>
+                    </th>
+                    <th width="">姓名</th>
+                    <th width="">年龄</th>
+
+                </tr>
+                <tr v-for="(user,index) in userList">
+                    <td>
+                        <el-checkbox :disabled="checkFlag"
+                                     v-model="user.checked"
+                                     @change="oneCheck(user)"></el-checkbox>
+                        <span v-text="index+1"></span>
+                    </td>
+                    <td  v-text="user.name" ></td>
+                    <td  v-text="user.age"></td>
+
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/ele.js"></script>
+    <script th:inline="javascript">
+        var urls = {
+            getDemosUrl:[[${contextPath}]]+'/demo/getDemo',
+
+
+        };
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                userList: [],
+                checkFlag: false,
+                checkList: {}
+
+            },
+            created: function () {
+
+            },
+            methods: {
+                getUsers: function () {
+                    var vue = this;
+                    $.post(urls.getDemosUrl, function (response) {
+
+                        if (response['code'] === 200) {
+                            vue.userList = response['data'];
+                            if (vue.userList && vue.userList.length > 0) {
+                                vue.userList.forEach(function (user) {
+                                    user['checked'] = false;
+                                })
+                            }
+                            /*vue.$message({
+                                message: '',
+                                type: 'success',
+                                duration: 1000,
+                                center: true
+                            });*/
+                        } else {
+                            vue.$message({
+                                message: response['msg'],
+                                type: 'error',
+                                duration: 1000,
+                                center: true
+                            })
+                        }
+                    });
+                },
+
+
+
+                allCheck: function () {
+                    this.userList.forEach(function (item) {
+                        item['checked'] = this.checkFlag;
+                    }, this);
+                    this.checkList = {};
+                    this.isClick = true;
+                },
+                oneCheck: function (user) {
+                    var userId = user['id'];
+                    var checked = user['checked'];
+                    this.checkList[userId] = checked;
+                },
+            }
+        })
+
+
+    </script>
+</div>
+</body>
+</html>
