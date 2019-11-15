@@ -12,6 +12,8 @@ public enum ErrorEnum {
 
     UNKNOWN_ERROR(301, "未知错误"),
 
+    DATA_ERROR(302, "参数不能为空"),
+
     SYSTEM_ERROR(600, "系统错误，请刷新页面重试");
 
 

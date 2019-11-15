@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.bootDemo.dictionary.mapper.DictionaryMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.bootDemo.dictionary.model.DictionaryData">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="data_desc" property="dataDesc" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="seq" property="seq" jdbcType="VARCHAR"/>
+        <result column="mark" property="mark" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.example.bootDemo.dictionary.model.DictionaryType">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="type_desc" property="typeDesc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+</mapper>
