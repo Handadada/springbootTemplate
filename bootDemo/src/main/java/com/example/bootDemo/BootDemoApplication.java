@@ -8,8 +8,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@MapperScan(value = {"com.example.bootDemo.*"})
-@ComponentScan("com.example.bootDemo")
+@MapperScan(value = {"com.example.bootdemo.*"})
+@ComponentScan("com.example.bootdemo")
 @EnableTransactionManagement//事务自动管理
 @EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
 @EnableAutoConfiguration //自动装配配置文件
