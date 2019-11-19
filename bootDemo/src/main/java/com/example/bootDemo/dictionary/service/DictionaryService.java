@@ -7,6 +7,7 @@ import com.example.bootDemo.dictionary.vo.DictionaryResponseVO;
 import com.example.bootDemo.dictionary.vo.DictionarySearchVO;
 import com.example.bootDemo.enums.ErrorEnum;
 import com.example.bootDemo.exception.ProjectException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,24 +37,24 @@ public class DictionaryService {
         }
         vo.setStartRow((vo.getPageNo() - 1) * vo.getPageSize());
 
-            int count = dictionaryMapper.getDictionaryTypeCount(vo);
-            int pages = 0;
-            if (count > 0) {
-                pages = count % 15 == 0 ? count / 15 : count / 15 + 1;
-            }
-            List<DictionaryType> list = dictionaryMapper.getDictionaryTypeList(vo);
-            response.setPageNo(vo.getPageNo());
-            response.setPageSize(vo.getPageSize());
-            response.setCount(count);
-            response.setPages(pages);
-            response.setList(list);
+        int count = dictionaryMapper.getDictionaryTypeCount(vo);
+        int pages = 0;
+        if (count > 0) {
+            pages = count % 15 == 0 ? count / 15 : count / 15 + 1;
+        }
+        List<DictionaryType> list = dictionaryMapper.getDictionaryTypeList(vo);
+        response.setPageNo(vo.getPageNo());
+        response.setPageSize(vo.getPageSize());
+        response.setCount(count);
+        response.setPages(pages);
+        response.setList(list);
 
-            return response;
+        return response;
     }
 
     public DictionaryResponseVO<DictionaryData> getDictionaryDataList(DictionarySearchVO vo) {
         if (null == vo.getTypeId()) {
-            throw  new ProjectException(ErrorEnum.DATA_ERROR);
+            throw new ProjectException(ErrorEnum.DATA_ERROR);
         }
         DictionaryResponseVO<DictionaryData> response = new DictionaryResponseVO<>();
         //校正数据
@@ -78,5 +79,16 @@ public class DictionaryService {
         response.setList(list);
 
         return response;
+    }
+
+    public void addType(DictionaryType dictionaryType) {
+        this.checkTypeParams(dictionaryType);
+        dictionaryMapper.addType(dictionaryType);
+    }
+
+    private void checkTypeParams(DictionaryType dictionaryType) {
+        if (StringUtils.isBlank(dictionaryType.getTypeDesc())) {
+            throw new ProjectException(ErrorEnum.DATA_ERROR);
+        }
     }
 }

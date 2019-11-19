@@ -26,9 +26,9 @@ public class DictionaryController {
 
     //获取字典类别
     @RequestMapping("/listType")
-    public ResponseVO getDictionaryTypeList(DictionarySearchVO vo){
+    public ResponseVO getDictionaryTypeList(DictionarySearchVO vo) {
         try {
-            DictionaryResponseVO<DictionaryType> data =  dictionaryService.getDictionaryTypeList(vo);
+            DictionaryResponseVO<DictionaryType> data = dictionaryService.getDictionaryTypeList(vo);
             return ResponseVO.success(data);
         } catch (ProjectException e) {
             return ResponseVO.fail(e.getErrorEnum());
@@ -37,14 +37,78 @@ public class DictionaryController {
 
     //字典详情列表
     @RequestMapping("/listData")
-    public ResponseVO getDictionaryDataList(DictionarySearchVO vo){
+    public ResponseVO getDictionaryDataList(DictionarySearchVO vo) {
         try {
-            DictionaryResponseVO<DictionaryData> data =  dictionaryService.getDictionaryDataList(vo);
+            DictionaryResponseVO<DictionaryData> data = dictionaryService.getDictionaryDataList(vo);
             return ResponseVO.success(data);
         } catch (ProjectException e) {
             return ResponseVO.fail(e.getErrorEnum());
         }
     }
 
+    //添加字典类别
+    @RequestMapping("/addType")
+    public ResponseVO addType(DictionaryType DictionaryType) {
+        try {
+            dictionaryService.addType(DictionaryType);
+            return ResponseVO.success();
+        } catch (ProjectException e) {
+            return ResponseVO.fail(e.getErrorEnum());
+        }
+    }
 
+    //修改字典类型
+    @RequestMapping("/updateType")
+    public ResponseVO updateType(DictionaryType DictionaryType) {
+        try {
+            dictionaryService.updateType(DictionaryType);
+            return ResponseVO.success();
+        } catch (ProjectException e) {
+            return ResponseVO.fail(e.getErrorEnum());
+        }
+    }
+
+    //删除字典类型
+    @RequestMapping("/deleteType")
+    public ResponseVO deleteType(Integer typeId) {
+        try {
+            dictionaryService.deleteType(typeId);
+            return ResponseVO.success();
+        } catch (ProjectException e) {
+            return ResponseVO.fail(e.getErrorEnum());
+        }
+    }
+
+    //添加字典详情类别
+    @RequestMapping("/addData")
+    public ResponseVO addData(DictionaryData dictionaryData) {
+        try {
+            dictionaryService.addData(dictionaryData);
+            return ResponseVO.success();
+        } catch (ProjectException e) {
+            return ResponseVO.fail(e.getErrorEnum());
+        }
+    }
+
+    //修改字典详情类型
+    @RequestMapping("/updateData")
+    public ResponseVO updateData(DictionaryData dictionaryData) {
+        try {
+            dictionaryService.updateData(dictionaryData);
+            return ResponseVO.success();
+        } catch (ProjectException e) {
+            return ResponseVO.fail(e.getErrorEnum());
+        }
+    }
+
+    //删除字典详情类型
+    @RequestMapping("/deleteData")
+    public ResponseVO deleteData(Integer dataId) {
+        try {
+            dictionaryService.deleteData(dataId);
+            return ResponseVO.success();
+        } catch (ProjectException e) {
+            return ResponseVO.fail(e.getErrorEnum());
+        }
+    }
 }

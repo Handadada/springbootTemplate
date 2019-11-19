@@ -4,7 +4,6 @@
 
     <resultMap id="BaseResultMap" type="com.example.bootDemo.dictionary.model.DictionaryData">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="data_desc" property="dataDesc" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
@@ -18,6 +17,35 @@
         <result column="type_desc" property="typeDesc" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="getDictionaryTypeCount" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
+            resultType="Integer">
+        select count(1) from dictionary_type;
+    </select>
 
+    <select id="getDictionaryTypeList" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
+            resultMap="BaseResultMap2">
+        select id,code,type_desc
+         from dictionary_type
+         limit ( #{startRow}, #{pageSize} )
+    </select>
+
+    <select id="getDictionaryDataCount" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
+            resultType="Integer">
+        select count(1) from dictionary_data t
+          where t.id in (
+            select data_id from dictionary_type_data where type_id = #{typeId,jdbcType=INTEGER}
+          )
+    </select>
+
+    <select id="getDictionaryDataList" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
+            resultMap="BaseResultMap">
+       select id, code, data_desc, parent_id , seq, mark
+          from dictionary_data t
+          where t.id in (
+            select data_id from dictionary_type_data where type_id = #{typeId,jdbcType=INTEGER}
+          )
+          limit ( #{startRow}, #{pageSize} )
+          order by seq
+    </select>
 
 </mapper>
