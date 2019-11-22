@@ -42,4 +42,7 @@ public interface DictionaryMapper {
 
     //删除字典类别详情关联
     void deleteTypeDate(Integer dataId);
+
+    //检验是否字典类型下有字典详情
+    List<Integer> getDataIdByType(Integer typeId);
 }

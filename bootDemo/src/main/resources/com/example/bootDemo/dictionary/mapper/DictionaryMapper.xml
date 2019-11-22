@@ -112,7 +112,7 @@
 
     <insert id="addtypeDate" parameterType="com.example.bootDemo.dictionary.model.DictionaryData">
         insert into dictionary_type_data (TYPE_ID, DATA_ID)
-        VALUES (#{parentId,jdbcType=INTEGER}, #{id,jdbcType=INTEGER})
+        VALUES (#{typeId,jdbcType=INTEGER}, #{id,jdbcType=INTEGER})
     </insert>
 
     <update id="updateData" parameterType="com.example.bootDemo.dictionary.model.DictionaryData">
@@ -144,4 +144,8 @@
         from dictionary_type_data
         where DATA_ID = #{dataId,jdbcType=INTEGER}
     </delete>
+
+    <select id="getDataIdByType" parameterType="Integer" resultType="Integer">
+        select DATA_ID from dictionary_type_data where TYPE_ID = #{typeId, jdbcType=INTEGER}
+    </select>
 </mapper>

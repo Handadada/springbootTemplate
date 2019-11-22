@@ -10,7 +10,9 @@ import com.example.bootDemo.exception.ProjectException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,6 +101,11 @@ public class DictionaryService {
     public void deleteType(Integer typeId) {
         if (typeId == null) {
             throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        //查询是否有字典详情, 如果有不让删除
+        List<Integer> dataIds = dictionaryMapper.getDataIdByType(typeId);
+        if (!CollectionUtils.isEmpty(dataIds)) {
+            throw new ProjectException(ErrorEnum.TYPE_HAVE_DATA_YET);
         }
         dictionaryMapper.deleteType(typeId);
     }

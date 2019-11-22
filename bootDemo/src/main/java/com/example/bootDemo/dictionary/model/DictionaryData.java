@@ -10,8 +10,10 @@ import lombok.Data;
  */
 @Data
 public class DictionaryData {
-
+    //主键id
     private Integer id;
+    //字典类型id
+    private Integer typeId;
     //编码
     private String code;
     //字典名
