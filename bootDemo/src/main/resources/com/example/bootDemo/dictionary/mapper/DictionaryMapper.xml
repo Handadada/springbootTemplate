@@ -19,33 +19,129 @@
 
     <select id="getDictionaryTypeCount" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
             resultType="Integer">
-        select count(1) from dictionary_type;
+        select count(1)
+        from dictionary_type;
     </select>
 
     <select id="getDictionaryTypeList" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
             resultMap="BaseResultMap2">
-        select id,code,type_desc
-         from dictionary_type
-         limit ( #{startRow}, #{pageSize} )
+        select id, code, type_desc
+        from dictionary_type
+        limit #{startRow}, #{pageSize}
     </select>
 
     <select id="getDictionaryDataCount" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
             resultType="Integer">
-        select count(1) from dictionary_data t
-          where t.id in (
-            select data_id from dictionary_type_data where type_id = #{typeId,jdbcType=INTEGER}
-          )
+        select count(1)
+        from dictionary_data t
+        where t.id in (select data_id from dictionary_type_data where type_id = #{typeId,jdbcType=INTEGER})
     </select>
 
     <select id="getDictionaryDataList" parameterType="com.example.bootDemo.dictionary.vo.DictionarySearchVO"
             resultMap="BaseResultMap">
-       select id, code, data_desc, parent_id , seq, mark
-          from dictionary_data t
-          where t.id in (
-            select data_id from dictionary_type_data where type_id = #{typeId,jdbcType=INTEGER}
-          )
-          limit ( #{startRow}, #{pageSize} )
-          order by seq
+        select id, code, data_desc, parent_id, seq, mark
+        from dictionary_data t
+        where t.id in (select data_id from dictionary_type_data where type_id = #{typeId,jdbcType=INTEGER})
+        order by seq
+        limit #{startRow}, #{pageSize}
+
     </select>
 
+    <insert id="addType" parameterType="com.example.bootDemo.dictionary.model.DictionaryType">
+        insert into dictionary_type (CODE, TYPE_DESC)
+        values (#{code,jdbcType=VARCHAR}, #{typeDesc,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateType" parameterType="com.example.bootDemo.dictionary.model.DictionaryType">
+        update dictionary_type
+        <set>
+            <if test="null != code and code != ''">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="null != typeDesc and typeDesc != ''">
+                type_desc = #{typeDesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteType" parameterType="Integer">
+        delete
+        from dictionary_type
+        where ID = #{typeId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="addData" keyColumn="ID" parameterType="com.example.bootDemo.dictionary.model.DictionaryData"
+            useGeneratedKeys="true" keyProperty="ID">
+        insert into dictionary_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">
+                code,
+            </if>
+            <if test="dataDesc != null and dataDesc != ''">
+                data_desc,
+            </if>
+            <if test="parentId != null and parentId != ''">
+                parent_id,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="mark != null and mark != ''">
+                mark,
+            </if>
+        </trim>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null and code != ''">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="dataDesc != null and dataDesc != ''">
+                #{dataDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="mark != null and mark != ''">
+                #{mark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="addtypeDate" parameterType="com.example.bootDemo.dictionary.model.DictionaryData">
+        insert into dictionary_type_data (TYPE_ID, DATA_ID)
+        VALUES (#{parentId,jdbcType=INTEGER}, #{id,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateData" parameterType="com.example.bootDemo.dictionary.model.DictionaryData">
+        update dictionary_data
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="dataDesc != null and dataDesc != ''">
+                data_desc = #{dataDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="mark != null and mark != ''">
+                mark = #{mark,jdbcType=VARCHAR},
+            </if>
+        </set>
+    </update>
+
+    <delete id="deleteData" parameterType="Integer">
+        delete
+        from dictionary_data
+        where id = #{dataId,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteTypeDate" parameterType="Integer">
+        delete
+        from dictionary_type_data
+        where DATA_ID = #{dataId,jdbcType=INTEGER}
+    </delete>
 </mapper>

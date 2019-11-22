@@ -3,9 +3,9 @@ package com.example.bootDemo.dictionary.controller;
 import com.example.bootDemo.dictionary.model.DictionaryData;
 import com.example.bootDemo.dictionary.model.DictionaryType;
 import com.example.bootDemo.dictionary.service.DictionaryService;
-import com.example.bootDemo.dictionary.vo.DictionaryResponseVO;
 import com.example.bootDemo.dictionary.vo.DictionarySearchVO;
 import com.example.bootDemo.exception.ProjectException;
+import com.example.bootDemo.response.PageResponseVO;
 import com.example.bootDemo.response.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class DictionaryController {
     @RequestMapping("/listType")
     public ResponseVO getDictionaryTypeList(DictionarySearchVO vo) {
         try {
-            DictionaryResponseVO<DictionaryType> data = dictionaryService.getDictionaryTypeList(vo);
+            PageResponseVO<DictionaryType> data = dictionaryService.getDictionaryTypeList(vo);
             return ResponseVO.success(data);
         } catch (ProjectException e) {
             return ResponseVO.fail(e.getErrorEnum());
@@ -39,7 +39,7 @@ public class DictionaryController {
     @RequestMapping("/listData")
     public ResponseVO getDictionaryDataList(DictionarySearchVO vo) {
         try {
-            DictionaryResponseVO<DictionaryData> data = dictionaryService.getDictionaryDataList(vo);
+            PageResponseVO<DictionaryData> data = dictionaryService.getDictionaryDataList(vo);
             return ResponseVO.success(data);
         } catch (ProjectException e) {
             return ResponseVO.fail(e.getErrorEnum());
@@ -111,4 +111,6 @@ public class DictionaryController {
             return ResponseVO.fail(e.getErrorEnum());
         }
     }
+
+
 }

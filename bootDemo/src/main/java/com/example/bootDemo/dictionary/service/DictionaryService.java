@@ -3,7 +3,7 @@ package com.example.bootDemo.dictionary.service;
 import com.example.bootDemo.dictionary.mapper.DictionaryMapper;
 import com.example.bootDemo.dictionary.model.DictionaryData;
 import com.example.bootDemo.dictionary.model.DictionaryType;
-import com.example.bootDemo.dictionary.vo.DictionaryResponseVO;
+import com.example.bootDemo.response.PageResponseVO;
 import com.example.bootDemo.dictionary.vo.DictionarySearchVO;
 import com.example.bootDemo.enums.ErrorEnum;
 import com.example.bootDemo.exception.ProjectException;
@@ -26,8 +26,8 @@ public class DictionaryService {
     private DictionaryMapper dictionaryMapper;
 
 
-    public DictionaryResponseVO<DictionaryType> getDictionaryTypeList(DictionarySearchVO vo) {
-        DictionaryResponseVO<DictionaryType> response = new DictionaryResponseVO<>();
+    public PageResponseVO<DictionaryType> getDictionaryTypeList(DictionarySearchVO vo) {
+        PageResponseVO<DictionaryType> response = new PageResponseVO<>();
         //校正数据
         if (vo.getPageNo() < 1) {
             vo.setPageNo(1);
@@ -52,11 +52,11 @@ public class DictionaryService {
         return response;
     }
 
-    public DictionaryResponseVO<DictionaryData> getDictionaryDataList(DictionarySearchVO vo) {
+    public PageResponseVO<DictionaryData> getDictionaryDataList(DictionarySearchVO vo) {
         if (null == vo.getTypeId()) {
             throw new ProjectException(ErrorEnum.DATA_ERROR);
         }
-        DictionaryResponseVO<DictionaryData> response = new DictionaryResponseVO<>();
+        PageResponseVO<DictionaryData> response = new PageResponseVO<>();
         //校正数据
         if (vo.getPageNo() < 1) {
             vo.setPageNo(1);
@@ -82,13 +82,54 @@ public class DictionaryService {
     }
 
     public void addType(DictionaryType dictionaryType) {
-        this.checkTypeParams(dictionaryType);
+        if (StringUtils.isBlank(dictionaryType.getTypeDesc()) || StringUtils.isBlank(dictionaryType.getCode())) {
+            throw new ProjectException(ErrorEnum.DATA_ERROR);
+        }
         dictionaryMapper.addType(dictionaryType);
     }
 
-    private void checkTypeParams(DictionaryType dictionaryType) {
-        if (StringUtils.isBlank(dictionaryType.getTypeDesc())) {
+
+    public void updateType(DictionaryType dictionaryType) {
+        if (dictionaryType == null || dictionaryType.getId() == null) {
+            throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        dictionaryMapper.updateType(dictionaryType);
+    }
+
+    public void deleteType(Integer typeId) {
+        if (typeId == null) {
+            throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        dictionaryMapper.deleteType(typeId);
+    }
+
+    public void addData(DictionaryData dictionaryData) {
+        if (dictionaryData == null || dictionaryData.getDataDesc() == null || "".equals(dictionaryData.getDataDesc())) {
             throw new ProjectException(ErrorEnum.DATA_ERROR);
+        }
+        if (dictionaryData.getParentId() == null) {
+            throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        Integer flag = dictionaryMapper.addData(dictionaryData);
+        if (null != flag && flag == 1) {
+            dictionaryMapper.addtypeDate(dictionaryData);
+        }
+    }
+
+    public void updateData(DictionaryData dictionaryData) {
+        if (dictionaryData == null || dictionaryData.getId() == null) {
+            throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        dictionaryMapper.updateData(dictionaryData);
+    }
+
+    public void deleteData(Integer dataId) {
+        if (null == dataId) {
+            throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        Integer flag = dictionaryMapper.deleteData(dataId);
+        if (null != flag || flag == 1) {
+            dictionaryMapper.deleteTypeDate(dataId);
         }
     }
 }

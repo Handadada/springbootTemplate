@@ -14,6 +14,8 @@ public enum ErrorEnum {
 
     DATA_ERROR(302, "参数不能为空"),
 
+    ID_NOT_EXIT(303, "该项内容不存在,请刷新页面"),
+
     SYSTEM_ERROR(600, "系统错误，请刷新页面重试");
 
 

@@ -35,18 +35,130 @@
     <schema id="26" parent="1" name="test03"/>
     <schema id="27" parent="1" name="test0829"/>
     <schema id="28" parent="1" name="wabacusdemodb"/>
-    <table id="29" parent="4" name="user"/>
-    <column id="30" parent="29" name="id">
+    <table id="29" parent="4" name="dictionary_data"/>
+    <table id="30" parent="4" name="dictionary_type"/>
+    <table id="31" parent="4" name="dictionary_type_data"/>
+    <table id="32" parent="4" name="expense_calendar"/>
+    <table id="33" parent="4" name="user"/>
+    <column id="34" parent="29" name="ID">
+      <Position>1</Position>
+      <DataType>INT(10)|4s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="35" parent="29" name="CODE">
+      <Position>2</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+    </column>
+    <column id="36" parent="29" name="DATA_DESC">
+      <Position>3</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+    </column>
+    <column id="37" parent="29" name="PARENT_ID">
+      <Position>4</Position>
+      <DataType>INT(10)|4s</DataType>
+    </column>
+    <column id="38" parent="29" name="SEQ">
+      <Position>5</Position>
+      <DataType>INT(10)|4s</DataType>
+    </column>
+    <column id="39" parent="29" name="MARK">
+      <Position>6</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+    </column>
+    <index id="40" parent="29" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="41" parent="29" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="42" parent="30" name="ID">
+      <Position>1</Position>
+      <DataType>INT(10)|4s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="43" parent="30" name="CODE">
+      <Position>2</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+    </column>
+    <column id="44" parent="30" name="TYPE_DESC">
+      <Position>3</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+    </column>
+    <index id="45" parent="30" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="46" parent="30" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="47" parent="31" name="TYPE_ID">
+      <Position>1</Position>
+      <DataType>INT(10)|4s</DataType>
+    </column>
+    <column id="48" parent="31" name="DATA_ID">
+      <Position>2</Position>
+      <DataType>INT(10)|4s</DataType>
+    </column>
+    <column id="49" parent="32" name="ID">
+      <Position>1</Position>
+      <DataType>INT(10)|4s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="50" parent="32" name="TYPE_ID">
+      <Position>2</Position>
+      <Comment>消费类型id</Comment>
+      <DataType>INT(10)|4s</DataType>
+    </column>
+    <column id="51" parent="32" name="MONEY">
+      <Position>3</Position>
+      <Comment>消费金额</Comment>
+      <DataType>DOUBLE(22)|8s</DataType>
+    </column>
+    <column id="52" parent="32" name="CREATE_DATE">
+      <Position>4</Position>
+      <Comment>创建时间</Comment>
+      <DataType>DATETIME(19)|93s</DataType>
+    </column>
+    <column id="53" parent="32" name="CREATE_USER">
+      <Position>5</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+    </column>
+    <column id="54" parent="32" name="MARK">
+      <Position>6</Position>
+      <Comment>备注</Comment>
+      <DataType>VARCHAR(128)|12s</DataType>
+    </column>
+    <index id="55" parent="32" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="56" parent="32" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="57" parent="33" name="id">
       <Position>1</Position>
       <DataType>VARCHAR(36)|12s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
     </column>
-    <column id="31" parent="29" name="name">
+    <column id="58" parent="33" name="name">
       <Position>2</Position>
       <DataType>VARCHAR(36)|12s</DataType>
     </column>
-    <column id="32" parent="29" name="age">
+    <column id="59" parent="33" name="age">
       <Position>3</Position>
       <DataType>INT(10)|4s</DataType>
     </column>

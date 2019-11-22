@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.bootDemo.tableBook.mapper.ExpenseCalendarMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.bootDemo.tableBook.vo.ExpenseCalendarVO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="money" property="money" jdbcType="DOUBLE"/>
+        <result column="create_date" property="createDate" jdbcType="DATETIME"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="mark" property="mark" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <select id="count" parameterType="com.example.bootDemo.tableBook.vo.ExpenseSearchVO"
+            resultType="Integer">
+        select count(1)
+        from expense_calendar
+          where CREATE_USER = #{createUser, jdbcType=VARCHAR}
+          <if test="typeId != null">
+           and  TYPE_ID = #{typeId, jdbcType=INTEGER}
+          </if>
+          <if test="createDte != null">
+           and CREATE_DATE between #{createDate} and #{endDate}
+          </if>
+    </select>
+
+    <select id="list" parameterType="com.example.bootDemo.tableBook.vo.ExpenseSearchVO"
+            resultMap="BaseResultMap">
+        select t1.id ,
+                t2.DATA_DESC type_name,
+                t1.money,
+                t1.create_date,
+                t1.create_user,
+                t1.mark
+        from expense_calendar t1
+        left join dictionary_data t2 on t1.TYPE_ID = t2.ID
+        where CREATE_USER = #{createUser, jdbcType=VARCHAR}
+        <if test="typeId != null">
+            and  TYPE_ID = #{typeId, jdbcType=INTEGER}
+        </if>
+        <if test="createDte != null">
+            and CREATE_DATE between #{createDate} and #{endDate}
+        </if>
+    </select>
+
+</mapper>

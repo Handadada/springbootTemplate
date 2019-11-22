@@ -1,4 +1,4 @@
-package com.example.bootDemo.dictionary.vo;
+package com.example.bootDemo.response;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @create 2019-11-15 15:42
  */
 @Data
-public class DictionaryResponseVO<T> {
+public class PageResponseVO<T> {
 
     private List<T> list;
 
