@@ -1,9 +1,10 @@
-HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
-
+src/main/resources/application-wm.properties
+src/main/resources/application-release.properties
+src/main/resources/application.properties
+/data/
+application.properties
 ### STS ###
 .apt_generated
 .classpath
@@ -11,21 +12,22 @@ target/
 .project
 .settings
 .springBeans
-.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
+*.log
 *.iws
 *.iml
 *.ipr
+*.DS_Store
+Dump20180326.sql
+info.log.*
+/log
 
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+nbproject/private/
 build/
-
-### VS Code ###
-.vscode/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/

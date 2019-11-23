@@ -8,9 +8,7 @@ import com.example.bootDemo.exception.ProjectException;
 import com.example.bootDemo.response.PageResponseVO;
 import com.example.bootDemo.response.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 描述:
@@ -27,7 +25,8 @@ public class DictionaryController {
 
     //获取字典类别
     @RequestMapping("/listType")
-    public ResponseVO getDictionaryTypeList(@RequestBody DictionarySearchVO vo) {
+    @ResponseBody
+    public ResponseVO getDictionaryTypeList(DictionarySearchVO vo) {
         try {
             PageResponseVO<DictionaryType> data = dictionaryService.getDictionaryTypeList(vo);
             return ResponseVO.success(data);
