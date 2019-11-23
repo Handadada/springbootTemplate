@@ -8,6 +8,7 @@ import com.example.bootDemo.exception.ProjectException;
 import com.example.bootDemo.response.PageResponseVO;
 import com.example.bootDemo.response.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ public class DictionaryController {
 
     //获取字典类别
     @RequestMapping("/listType")
-    public ResponseVO getDictionaryTypeList(DictionarySearchVO vo) {
+    public ResponseVO getDictionaryTypeList(@RequestBody DictionarySearchVO vo) {
         try {
             PageResponseVO<DictionaryType> data = dictionaryService.getDictionaryTypeList(vo);
             return ResponseVO.success(data);
@@ -37,7 +38,7 @@ public class DictionaryController {
 
     //字典详情列表
     @RequestMapping("/listData")
-    public ResponseVO getDictionaryDataList(DictionarySearchVO vo) {
+    public ResponseVO getDictionaryDataList(@RequestBody DictionarySearchVO vo) {
         try {
             PageResponseVO<DictionaryData> data = dictionaryService.getDictionaryDataList(vo);
             return ResponseVO.success(data);
@@ -48,7 +49,7 @@ public class DictionaryController {
 
     //添加字典类别
     @RequestMapping("/addType")
-    public ResponseVO addType(DictionaryType DictionaryType) {
+    public ResponseVO addType(@RequestBody DictionaryType DictionaryType) {
         try {
             dictionaryService.addType(DictionaryType);
             return ResponseVO.success();
@@ -59,7 +60,7 @@ public class DictionaryController {
 
     //修改字典类型
     @RequestMapping("/updateType")
-    public ResponseVO updateType(DictionaryType DictionaryType) {
+    public ResponseVO updateType(@RequestBody DictionaryType DictionaryType) {
         try {
             dictionaryService.updateType(DictionaryType);
             return ResponseVO.success();
@@ -81,7 +82,7 @@ public class DictionaryController {
 
     //添加字典详情类别
     @RequestMapping("/addData")
-    public ResponseVO addData(DictionaryData dictionaryData) {
+    public ResponseVO addData(@RequestBody DictionaryData dictionaryData) {
         try {
             dictionaryService.addData(dictionaryData);
             return ResponseVO.success();
@@ -92,7 +93,7 @@ public class DictionaryController {
 
     //修改字典详情类型
     @RequestMapping("/updateData")
-    public ResponseVO updateData(DictionaryData dictionaryData) {
+    public ResponseVO updateData(@RequestBody DictionaryData dictionaryData) {
         try {
             dictionaryService.updateData(dictionaryData);
             return ResponseVO.success();
