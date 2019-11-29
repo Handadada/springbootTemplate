@@ -25,8 +25,7 @@ public class DictionaryController {
 
     //获取字典类别
     @RequestMapping("/listType")
-    @ResponseBody
-    public ResponseVO getDictionaryTypeList(DictionarySearchVO vo) {
+    public ResponseVO getDictionaryTypeList(@RequestBody DictionarySearchVO vo) {
         try {
             PageResponseVO<DictionaryType> data = dictionaryService.getDictionaryTypeList(vo);
             return ResponseVO.success(data);

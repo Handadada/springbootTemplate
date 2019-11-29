@@ -5,6 +5,7 @@ import com.example.bootDemo.enums.ErrorEnum;
 import com.example.bootDemo.exception.ProjectException;
 import com.example.bootDemo.response.PageResponseVO;
 import com.example.bootDemo.tableBook.mapper.ExpenseCalendarMapper;
+import com.example.bootDemo.tableBook.model.ExpenseCalendar;
 import com.example.bootDemo.tableBook.vo.ExpenseCalendarVO;
 import com.example.bootDemo.tableBook.vo.ExpenseSearchVO;
 import org.apache.commons.lang3.StringUtils;
@@ -67,5 +68,43 @@ public class ExpenseCalendarService {
             searchVO.setPageSize(15);
         }
         searchVO.setStartRow((searchVO.getPageNo() - 1) * searchVO.getPageSize());
+    }
+
+    public void insert(ExpenseCalendar expenseCalendar) {
+
+        boolean flag = this.checkExpenseCalendar(expenseCalendar);
+        if (!flag) {
+            throw new ProjectException(ErrorEnum.DATA_ERROR);
+        }
+        expenseCalendar.setCreateUser(Const.CURRENT_USER);
+        calendarMapper.insert(expenseCalendar);
+    }
+
+    private boolean checkExpenseCalendar(ExpenseCalendar expenseCalendar) {
+        boolean flag = true;
+        if (expenseCalendar.getMoney() == null) {
+            flag = false;
+        }
+        if (expenseCalendar.getCreateDate() == null) {
+            flag = false;
+        }
+        if (expenseCalendar.getTypeId() == null) {
+            flag = false;
+        }
+        return flag;
+    }
+
+    public void delete(Integer expenseCalendarId) {
+        if (null == expenseCalendarId) {
+            throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        calendarMapper.delete(expenseCalendarId);
+    }
+
+    public void update(ExpenseCalendar expenseCalendar) {
+        if (null == expenseCalendar || expenseCalendar.getId() == null) {
+            throw new ProjectException(ErrorEnum.ID_NOT_EXIT);
+        }
+        calendarMapper.update(expenseCalendar);
     }
 }

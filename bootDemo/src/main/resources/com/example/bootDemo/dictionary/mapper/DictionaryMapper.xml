@@ -131,6 +131,7 @@
                 mark = #{mark,jdbcType=VARCHAR},
             </if>
         </set>
+        where id = #{id}
     </update>
 
     <delete id="deleteData" parameterType="Integer">

@@ -16,32 +16,97 @@
             resultType="Integer">
         select count(1)
         from expense_calendar
-          where CREATE_USER = #{createUser, jdbcType=VARCHAR}
-          <if test="typeId != null">
-           and  TYPE_ID = #{typeId, jdbcType=INTEGER}
-          </if>
-          <if test="createDte != null">
-           and CREATE_DATE between #{createDate} and #{endDate}
-          </if>
-    </select>
-
-    <select id="list" parameterType="com.example.bootDemo.tableBook.vo.ExpenseSearchVO"
-            resultMap="BaseResultMap">
-        select t1.id ,
-                t2.DATA_DESC type_name,
-                t1.money,
-                t1.create_date,
-                t1.create_user,
-                t1.mark
-        from expense_calendar t1
-        left join dictionary_data t2 on t1.TYPE_ID = t2.ID
         where CREATE_USER = #{createUser, jdbcType=VARCHAR}
         <if test="typeId != null">
-            and  TYPE_ID = #{typeId, jdbcType=INTEGER}
+            and TYPE_ID = #{typeId, jdbcType=INTEGER}
         </if>
         <if test="createDte != null">
             and CREATE_DATE between #{createDate} and #{endDate}
         </if>
     </select>
 
+    <select id="list" parameterType="com.example.bootDemo.tableBook.vo.ExpenseSearchVO"
+            resultMap="BaseResultMap">
+        select t1.id ,
+        t2.DATA_DESC type_name,
+        t1.money,
+        t1.create_date,
+        t1.create_user,
+        t1.mark
+        from expense_calendar t1
+        left join dictionary_data t2 on t1.TYPE_ID = t2.ID
+        where CREATE_USER = #{createUser, jdbcType=VARCHAR}
+        <if test="typeId != null">
+            and TYPE_ID = #{typeId, jdbcType=INTEGER}
+        </if>
+        <if test="createDte != null">
+            and CREATE_DATE between #{createDate} and #{endDate}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.example.bootDemo.tableBook.model.ExpenseCalendar">
+        insert into expense_calendar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                TYPE_ID,
+            </if>
+            <if test="money != null">
+                MONEY,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="createUser != null and createUser != ''">
+                CREATE_USER,
+            </if>
+            <if test="mark != null and mark != ''">
+                MARK,
+            </if>
+        </trim>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeId != null">
+                #{typeId},
+            </if>
+            <if test="money != null">
+                #{money},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+            <if test="createUser != null and createUser != ''">
+                #{createUser},
+            </if>
+            <if test="mark != null and mark != ''">
+                #{mark},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" parameterType="Integer">
+        delete
+        from expense_calendar
+        where id = #{expenseCalendarId}
+    </delete>
+
+
+    <update id="update" parameterType="com.example.bootDemo.tableBook.model.ExpenseCalendar">
+        update expense_calendar
+        <set>
+            <if test="typeId != null">
+                type_id = #{typeId},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+            <if test="mark != null and mark != ''">
+                mark = #{mark},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
 </mapper>
