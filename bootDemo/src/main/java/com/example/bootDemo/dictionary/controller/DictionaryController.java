@@ -69,9 +69,9 @@ public class DictionaryController {
 
     //删除字典类型
     @RequestMapping("/deleteType")
-    public ResponseVO deleteType(Integer typeId) {
+    public ResponseVO deleteType(@RequestBody DictionaryType dictionaryType) {
         try {
-            dictionaryService.deleteType(typeId);
+            dictionaryService.deleteType(dictionaryType.getId());
             return ResponseVO.success();
         } catch (ProjectException e) {
             return ResponseVO.fail(e.getErrorEnum());
