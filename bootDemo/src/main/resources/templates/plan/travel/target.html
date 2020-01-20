@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>具体计划</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_global.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_tabs.css" type="text/css">
+    <link rel="stylesheet" href="/css/cq_common.css" type="text/css">
+    <link rel="stylesheet" href="/css/prettify.css" type="text/css">
+    <link rel="stylesheet" href="/css/ele.css" type="text/css">
+</head>
+<body class="bg-body">
+<div class="content">
+    <div class="main" id="box">
+        <div class="pz-text mt30">
+            <label>目标名称: </label>&nbsp;&nbsp;
+            <el-input style="width: 15%" v-model="name"></el-input>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <el-button type="primary" size="medium" @click="getPlans">查询</el-button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <el-button type="primary" size="medium" @click="addPlan">添加</el-button>
+            <br/><br/>
+
+            <table width="70%" border="1" cellspacing="0" style="table-layout: fixed; text-align: center"
+                   cellpadding="0" class="cq_table">
+                <tr>
+                    <th width="8%">序号</th>
+                    <th width="">目标</th>
+                    <th width="">时间</th>
+                    <th width="8%">所在地</th>
+                    <th width="">预计消费</th>
+                    <th width="">创建时间</th>
+                    <th width="">状态</th>
+                    <th width="25%">操作</th>
+                </tr>
+                <tr v-for="(plan,index) in plans">
+                    <td v-text="index+1"></td>
+                    <td v-text="plan.name"></td>
+                    <td v-text="plan.planTime"></td>
+                    <td v-text="plan.location"></td>
+                    <td v-text="plan.money"></td>
+                    <td v-text="plan.createTime"></td>
+                    <template v-if="plan.status == '未完成'">
+                        <td v-text="plan.status" style="color: red"></td>
+                    </template>
+                    <template v-if="plan.status == '已完成'">
+                        <td v-text="plan.status" style="color: greenyellow"></td>
+                    </template>
+                    <td>
+                        <el-button type="primary" size="small" @click="toUpdatePlan(plan.id)">修改</el-button>&nbsp;&nbsp;
+                        <el-button type="primary" size="small" @click="deletePlan(plan.id)">删除</el-button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="modal fade" id="toAddPlan" data-backdrop="static">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">添加旅行计划</h4>
+                    </div>
+                    <div class="modal-body">
+                        <el-form ref="form" :model="plan" label-width="80px">
+                            <el-form-item label="目标">
+                                <el-input v-model="plan.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="计划时间">
+                                <el-date-picker type="date" placeholder="选择日期" v-model="plan.planTime" style="width: 100%;"></el-date-picker>
+                            </el-form-item>
+                            <el-form-item label="所在地">
+                                <el-input v-model="plan.location"></el-input>
+                            </el-form-item>
+                            <el-form-item label="预计消费">
+                                <el-input v-model="plan.money"></el-input>
+                            </el-form-item>
+                            <el-form-item label="目标状态">
+                                <el-radio-group v-model="plan.status">
+                                    <el-radio :label="0" >未完成</el-radio>
+                                    <el-radio :label="1" >已完成</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" @click="savePlan">保存</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    </div>
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/ele.js"></script>
+    <script th:inline="javascript">
+        const urls = {
+            getPlansUrl: [[${contextPath}]] + '/target/getPlans',
+            getPlanByIdUrl: [[${contextPath}]] + '/target/getPlanById',
+            addPlanUrl: [[${contextPath}]] + '/target/addPlan',
+            deletePlanUrl: [[${contextPath}]] + '/target/deletePlan',
+            savePlanUrl: [[${contextPath}]] + '/target/savePlan',
+        };
+        const vm = new Vue({
+            el: "#box",
+            data: {
+                name: '',
+                plans: [],
+                plan: {},
+
+            },
+            created: function () {
+                this.getPlans();
+            },
+            methods: {
+                getPlans: function () {
+                    const vue = this;
+                    $.post(urls.getPlansUrl, {name: vue.name}, function (response) {
+                        if (response['code'] === 200) {
+                            vue.plans = response['data'];
+                        } else {
+                            vue.$message({
+                                message: response['msg'],
+                                type: 'error',
+                                duration: 1000,
+                                center: true
+                            })
+                        }
+                    });
+                },
+
+
+                toUpdatePlan: function (id) {
+                    const vue = this;
+                    $.post(urls.getPlanByIdUrl, {id: id}, function (response) {
+                        if (response['code'] === 200) {
+                            vue.plan = response['data'];
+                        } else {
+                            vue.$message({
+                                message: response['msg'],
+                                type: 'error',
+                                duration: 1000,
+                                center: true
+                            })
+                        }
+                    });
+
+                    $("#toAddPlan").modal("show");
+                },
+
+                addPlan: function () {
+                    const vue = this;
+                    $.post(urls.addPlanUrl, function (response) {
+                        if (response['code'] === 200) {
+                            vue.getPlans();
+                        } else {
+                            vue.$message({
+                                message: response['msg'],
+                                type: 'error',
+                                duration: 1500,
+                                center: true
+                            })
+                        }
+                    });
+                },
+                savePlan: function () {
+                    const vue = this;
+                    $.ajax({
+                        type: "post",
+                        url: urls.savePlanUrl,
+                        dateType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify(vue.plan),
+                        success: function (response) {
+                            if (response['code'] === 200) {
+                                vue.$message({
+                                    message: '保存成功!',
+                                    type: 'success',
+                                    duration: 1500,
+                                    center: true
+                                })
+                                $("#toAddPlan").modal("hide");
+                                vue.getPlans();
+                            } else {
+                                vue.$message({
+                                    message: response['msg'],
+                                    type: 'error',
+                                    duration: 1500,
+                                    center: true
+                                })
+                            }
+                        }
+                    });
+                },
+                deletePlan: function (id) {
+                    const vue = this;
+                    this.$confirm('是否删除该计划？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'error'
+                    }).then(() => {
+                        $.post(urls.deletePlanUrl, {id: id}, function (response) {
+                            if (response['code'] === 200) {
+                                vue.$message({
+                                    message: '删除成功',
+                                    type: 'success',
+                                    duration: 1500,
+                                    center: true
+                                });
+                                vue.getPlans();
+                            } else {
+                                vue.$message({
+                                    message: response['msg'],
+                                    type: 'error',
+                                    duration: 1500,
+                                    center: true
+                                })
+                            }
+                        })
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            duration: 1000,
+                            message: '已取消删除',
+                            center: true
+                        });
+                    });
+                }
+
+            }
+        });
+
+
+    </script>
+</div>
+</body>
+</html>

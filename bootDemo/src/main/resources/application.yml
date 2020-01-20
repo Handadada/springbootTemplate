@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: bootDemo
+  #\u5173\u95ED\u7F13\u5B58
+  thymeleaf:
+    cache: false
+  #\u70ED\u90E8\u7F72
+  devtools:
+    restart:
+      enabled: true
+  #\u6570\u636E\u6E90
+  datasource:
+    url: jdbc:mysql://39.99.199.70:3306/mini_happiness?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+
+#sevlet\u914D\u7F6E
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+
+#\u5206\u9875\u63D2\u4EF6
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#swagger\u754C\u9762\u5185\u5BB9\u914D\u7F6E
+swagger:
+  title: TMax API\u63A5\u53E3\u6587\u6863
+  description: TMax Api Documentation
+  version: 1.0.0
+  termsOfServiceUrl: https://www.sscai.club
+  contact:
+    name: niceyoo
+    url: https://www.sscai.club
+    email: apkdream@163.com
+
+
+

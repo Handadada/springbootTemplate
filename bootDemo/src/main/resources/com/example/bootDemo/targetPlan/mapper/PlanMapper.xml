@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.bootDemo.targetPlan.mapper.PlanMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.bootDemo.targetPlan.vo.TargetPlanVo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="plan_time" property="planTime" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="location" property="location" jdbcType="VARCHAR"/>
+        <result column="money" property="money" jdbcType="DOUBLE"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getPlans" parameterType="String" resultMap="BaseResultMap">
+        select id,
+                name,
+                date_format(plan_time,'%Y-%m-%d') plan_time,
+                date_format(create_time,'%Y-%m-%d') create_time,
+                location,
+                money,
+                case
+                  when status = 0 then '未完成'
+                  when status = 1 then '已完成'
+                end as status
+        from  target_plan
+        <where>
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by plan_time 
+    </select>
+
+    <select id="getPlanById" parameterType="Integer" resultType="com.example.bootDemo.targetPlan.model.TargetPlan">
+        select id,name,location,money,plan_time planTime,status
+        from target_plan
+        where id = #{id}
+    </select>
+
+    <insert id="addPlan" >
+        insert into target_plan (status,create_time)
+        values (0,now())
+    </insert>
+
+    <delete id="deletePlan" parameterType="Integer">
+        delete from target_plan
+        where id = #{id}
+    </delete>
+
+    <update id="savePlan" parameterType="com.example.bootDemo.targetPlan.model.TargetPlan">
+        update target_plan
+        <set>
+            <if test="plan.name != null and plan.name != ''">
+                name = #{plan.name},
+            </if>
+            <if test="plan.planTime != null">
+                plan_time = #{plan.planTime},
+            </if>
+            <if test="plan.location != null">
+                location = #{plan.location},
+            </if>
+            <if test="plan.money != null">
+                 money = #{plan.money},
+            </if>
+            <if test="plan.status != null">
+                status = #{plan.status},
+            </if>
+        </set>
+        where id = #{plan.id}
+    </update>
+</mapper>

@@ -4184,7 +4184,7 @@
                     // be processed after the whole patch process ended.
                     queueActivatedComponent(componentInstance);
                 } else {
-                    activateChildComponent(componentInstance, true /* direct */);
+                    activateChildComponent(componentInstance, true /* travel */);
                 }
             }
         },
@@ -4195,7 +4195,7 @@
                 if (!vnode.data.keepAlive) {
                     componentInstance.$destroy();
                 } else {
-                    deactivateChildComponent(componentInstance, true /* direct */);
+                    deactivateChildComponent(componentInstance, true /* travel */);
                 }
             }
         }
@@ -4439,7 +4439,7 @@
                 );
             }
         } else {
-            // direct component options / constructor
+            // travel component options / constructor
             vnode = createComponent(tag, data, context, children);
         }
         if (Array.isArray(vnode)) {

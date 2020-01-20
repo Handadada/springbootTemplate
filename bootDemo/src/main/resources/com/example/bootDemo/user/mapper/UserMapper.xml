@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.bootDemo.user.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.bootDemo.user.vo.UserVO">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <select id="listUsers" parameterType="String" resultMap="BaseResultMap">
+        select id, real_name, account, phone_number, role_id
+        from user
+        where status = 1
+        <if test="null != name and name != ''">
+            and (
+            real_name like concat('%',#{name},'%')
+            or account like concat('%',#{name},'%')
+            )
+        </if>
+    </select>
+
+
+    <insert id="addUser" parameterType="com.example.bootDemo.user.model.User">
+        insert into user (id, real_name, account, pwd, phone_number, role_id, create_time, status)
+        values (#{user.id}, #{user.realName}, #{user.account}, #{user.pwd}, #{user.phoneNumber}, #{user.roleId}, #{user.createTime}, #{user.status})
+    </insert>
+
+    <delete id="deleteUser" parameterType="com.example.bootDemo.user.model.User">
+        delete from user where id = #{user.id}
+    </delete>
+
+    <update id="updateUser" parameterType="com.example.bootDemo.user.model.User">
+        update user
+        <set>
+            <if test="user.realName != null and user.realName != ''">
+                real_name = #{user.realName}
+            </if>
+            <if test="user.phoneNumber != null and user.phoneNumber != ''">
+                phone_number = #{user.phoneNumber}
+            </if>
+            <if test="user.roleId != null">
+                role_id = #{user.roleId}
+            </if>
+        </set>
+        where id = #{user.id}
+    </update>
+
+    <update id="reSetPwd" parameterType="com.example.bootDemo.user.model.User">
+        update user
+          set pwd = '123456'
+        where id = #{user.id}
+    </update>
+</mapper>

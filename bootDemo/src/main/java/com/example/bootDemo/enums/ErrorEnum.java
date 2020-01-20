@@ -14,6 +14,8 @@ public enum ErrorEnum {
 
     DATA_ERROR(302, "参数不能为空"),
 
+    DATA_ADD_ERROR(303, "插入数据失败,请联系管理员"),
+
     SYSTEM_ERROR(600, "系统错误，请刷新页面重试");
 
 
@@ -23,6 +25,14 @@ public enum ErrorEnum {
     }
 
     private Integer code;
+
+    @Override
+    public String toString() {
+        return "ErrorEnum{" +
+                "code=" + code +
+                ", desc='" + desc + '\'' +
+                '}';
+    }
 
     private String desc;
 }
